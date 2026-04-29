@@ -1,0 +1,457 @@
+<!-- saved from url=(0075)file:///C:/Users/user/Documents/Downloads/hydronet_dehradun_multiroute.html -->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  #app{background:#f0ede8;min-height:600px;border-radius:8px;overflow:hidden;font-family:'Inter',sans-serif;border:1px solid #ccc}
+  #topbar{background:#fff;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #ddd;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:7px;font-weight:700;font-size:14px;color:#1a73e8;white-space:nowrap}
+  .tb-group{display:flex;align-items:center;gap:6px;background:#f8f8f8;border:1px solid #ddd;border-radius:6px;padding:5px 10px}
+  .tb-label{font-size:11px;color:#888;white-space:nowrap}
+  .tb-group select{background:transparent;border:none;outline:none;color:#222;font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;min-width:130px}
+  .tb-group select option{background:#fff;color:#222}
+  #find-btn{background:#1a73e8;color:#fff;border:none;border-radius:6px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif}
+  #find-btn:hover{background:#1558c0}
+  #reset-btn{background:#fff;color:#555;border:1px solid #ddd;border-radius:6px;padding:7px 10px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif}
+  #map-container{position:relative;width:100%;height:440px;overflow:hidden}
+  #map-svg{width:100%;height:100%}
+
+  /* Side panel */
+  #side-panel{position:absolute;top:8px;right:8px;width:210px;display:flex;flex-direction:column;gap:6px}
+  .route-card{background:#fff;border:2px solid #ddd;border-radius:8px;padding:10px 12px;cursor:pointer;transition:border-color 0.15s}
+  .route-card:hover{border-color:#aaa}
+  .route-card.active{border-color:var(--rc);box-shadow:0 0 0 2px var(--rc)22}
+  .rc-header{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+  .rc-badge{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+  .rc-title{font-size:12px;font-weight:600;color:#222}
+  .rc-dist{margin-left:auto;font-size:11px;font-weight:600}
+  .rc-steps{font-size:10px;color:#666;line-height:1.5}
+  .rc-mode{font-size:10px;color:#888;margin-top:4px;display:flex;align-items:center;gap:4px}
+
+  /* Bottom info strip */
+  #bottom-bar{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;padding:7px 14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .bb-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#555}
+  .bb-dot{width:12px;height:4px;border-radius:2px}
+</style>
+
+</head><body><div id="app">
+  <div id="topbar">
+    <div class="logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#1a73e8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"></path></svg>
+      HydroNet
+    </div>
+    <div class="tb-group">
+      <span class="tb-label">Source</span>
+      <select id="src"><option value="isbt">ISBT Dehradun</option><option value="clock">Clock Tower</option><option value="tapkeshwar">Tapkeshwar Temple</option><option value="fri">Forest Research Inst.</option><option value="paltan">Paltan Bazaar</option><option value="subhash">Subhash Nagar</option><option value="graphic_hill">Graphic Era Hill Uni.</option><option value="graphic">Graphic Era Uni.</option><option value="saharanpur">Saharanpur Chowk</option><option value="rajpur">Rajpur Road</option><option value="malsi">Malsi Deer Park</option><option value="robbers">Robber's Cave</option><option value="lacchiwala">Lacchiwala</option><option value="prem">Prem Nagar</option><option value="rispana">Rispana Bridge</option><option value="doon_hospital">Doon Hospital</option><option value="survey">Survey Chowk</option><option value="gandhi">Gandhi Park</option><option value="parade">Parade Ground</option><option value="railway">Railway Station</option><option value="pacific">Pacific Mall</option><option value="mussoorie">Mussoorie Gate</option><option value="ballupur">Ballupur Chowk</option><option value="it_park">IT Park</option><option value="haridwar_rd">Haridwar Road</option><option value="mdda">MDDA Park</option><option value="vasant_vihar">Vasant Vihar</option><option value="race_course">Race Course</option><option value="dalanwala">Dalanwala</option><option value="nehru_colony">Nehru Colony</option></select>
+    </div>
+    <div class="tb-group">
+      <span class="tb-label">Destination</span>
+      <select id="dst"><option value="isbt">ISBT Dehradun</option><option value="clock">Clock Tower</option><option value="tapkeshwar">Tapkeshwar Temple</option><option value="fri">Forest Research Inst.</option><option value="paltan">Paltan Bazaar</option><option value="subhash">Subhash Nagar</option><option value="graphic_hill">Graphic Era Hill Uni.</option><option value="graphic">Graphic Era Uni.</option><option value="saharanpur">Saharanpur Chowk</option><option value="rajpur">Rajpur Road</option><option value="malsi">Malsi Deer Park</option><option value="robbers">Robber's Cave</option><option value="lacchiwala">Lacchiwala</option><option value="prem">Prem Nagar</option><option value="rispana">Rispana Bridge</option><option value="doon_hospital">Doon Hospital</option><option value="survey">Survey Chowk</option><option value="gandhi">Gandhi Park</option><option value="parade">Parade Ground</option><option value="railway">Railway Station</option><option value="pacific">Pacific Mall</option><option value="mussoorie">Mussoorie Gate</option><option value="ballupur">Ballupur Chowk</option><option value="it_park">IT Park</option><option value="haridwar_rd">Haridwar Road</option><option value="mdda">MDDA Park</option><option value="vasant_vihar">Vasant Vihar</option><option value="race_course">Race Course</option><option value="dalanwala">Dalanwala</option><option value="nehru_colony">Nehru Colony</option></select>
+    </div>
+    <button id="find-btn" onclick="findRoutes()">🔍 Find Routes</button>
+    <button id="reset-btn" onclick="resetRoutes()">Reset</button>
+  </div>
+
+  <div id="map-container">
+    <svg id="map-svg" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#1a73e8"></path></marker>
+        <marker id="arr2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#e8710a"></path></marker>
+        <marker id="arr3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#1e8e3e"></path></marker>
+      </defs>
+
+      <!-- Background -->
+      <rect width="900" height="440" fill="#f0ede8"></rect>
+
+      <!-- Green areas -->
+      <rect x="100" y="50" width="190" height="130" rx="8" fill="#c8dca0" opacity="0.65"></rect>
+      <text x="148" y="110" font-size="9" fill="#4a7a20" font-family="Inter,sans-serif">Forest Research Inst.</text>
+      <rect x="540" y="25" width="110" height="80" rx="8" fill="#c8dca0" opacity="0.55"></rect>
+      <text x="566" y="65" font-size="9" fill="#4a7a20" font-family="Inter,sans-serif">Malsi Park</text>
+      <rect x="30" y="300" width="95" height="65" rx="6" fill="#c8dca0" opacity="0.5"></rect>
+      <text x="45" y="334" font-size="9" fill="#4a7a20" font-family="Inter,sans-serif">Lacchiwala</text>
+      <rect x="590" y="100" width="95" height="65" rx="6" fill="#c8dca0" opacity="0.5"></rect>
+      <text x="608" y="134" font-size="9" fill="#4a7a20" font-family="Inter,sans-serif">MDDA Park</text>
+
+      <!-- Rivers -->
+      <path d="M295,0 Q318,75 342,160 Q365,240 385,320 Q405,395 420,440" stroke="#a0c4e8" stroke-width="10" fill="none"></path>
+      <path d="M295,0 Q318,75 342,160 Q365,240 385,320 Q405,395 420,440" stroke="#7ab4d8" stroke-width="5" fill="none" opacity="0.5"></path>
+      <path d="M568,0 Q582,95 594,190 Q608,285 622,440" stroke="#a0c4e8" stroke-width="7" fill="none" opacity="0.6"></path>
+
+      <!-- NH7 -->
+      <path d="M0,255 Q210,248 420,252 Q620,256 900,250" stroke="#e8d9b0" stroke-width="18" fill="none"></path>
+      <path d="M0,255 Q210,248 420,252 Q620,256 900,250" stroke="#f5c842" stroke-width="9" fill="none" opacity="0.45"></path>
+      <text x="18" y="244" font-size="10" fill="#b8860b" font-family="Inter,sans-serif" font-weight="600">NH 7</text>
+
+      <!-- Roads -->
+      <path d="M420,0 Q424,110 420,252 Q416,370 418,440" stroke="#e0d5c0" stroke-width="12" fill="none"></path>
+      <path d="M185,0 Q188,120 186,255 Q184,370 185,440" stroke="#ddd" stroke-width="8" fill="none" opacity="0.75"></path>
+      <path d="M0,172 Q200,167 390,170 Q580,174 740,170" stroke="#ddd" stroke-width="7" fill="none" opacity="0.65"></path>
+      <path d="M480,0 Q484,95 488,190 Q492,285 496,440" stroke="#ddd" stroke-width="6" fill="none" opacity="0.55"></path>
+      <path d="M0,365 Q280,360 470,363 Q670,366 900,360" stroke="#ddd" stroke-width="6" fill="none" opacity="0.55"></path>
+      <rect x="360" y="170" width="200" height="130" rx="4" fill="#e8e0d0" opacity="0.45"></rect>
+
+      <g id="edges"><line x1="210" y1="330" x2="218" y2="385" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="210" y1="330" x2="380" y2="308" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="210" y1="330" x2="94" y2="288" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="210" y1="330" x2="392" y2="368" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="210" y1="330" x2="340" y2="258" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="218" y1="385" x2="232" y2="420" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="232" y1="420" x2="238" y2="438" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="380" y1="308" x2="422" y2="215" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="380" y1="308" x2="392" y2="368" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="380" y1="308" x2="450" y2="238" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="380" y1="308" x2="460" y2="290" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="380" y1="308" x2="340" y2="258" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="422" y1="215" x2="450" y2="238" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="422" y1="215" x2="442" y2="180" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="422" y1="215" x2="472" y2="194" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="422" y1="215" x2="360" y2="58" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="422" y1="215" x2="340" y2="258" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="450" y1="238" x2="500" y2="222" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="450" y1="238" x2="548" y2="288" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="450" y1="238" x2="540" y2="183" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="450" y1="238" x2="530" y2="260" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="450" y1="238" x2="460" y2="290" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="500" y1="222" x2="472" y2="194" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="500" y1="222" x2="442" y2="180" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="500" y1="222" x2="530" y2="260" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="442" y1="180" x2="490" y2="125" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="442" y1="180" x2="540" y2="183" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="490" y1="125" x2="480" y2="57" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="490" y1="125" x2="606" y2="65" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="490" y1="125" x2="196" y2="140" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="490" y1="125" x2="360" y2="58" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="490" y1="125" x2="660" y2="154" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="196" y1="140" x2="360" y2="58" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="196" y1="140" x2="122" y2="75" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="196" y1="140" x2="94" y2="288" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="122" y1="75" x2="94" y2="288" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="94" y1="288" x2="72" y2="335" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="94" y1="288" x2="340" y2="258" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="548" y1="288" x2="520" y2="340" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="548" y1="288" x2="610" y2="242" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="548" y1="288" x2="650" y2="292" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="548" y1="288" x2="530" y2="260" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="540" y1="183" x2="500" y2="222" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="540" y1="183" x2="610" y2="242" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="540" y1="183" x2="740" y2="194" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="610" y1="242" x2="650" y2="292" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="610" y1="242" x2="660" y2="154" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="610" y1="242" x2="740" y2="194" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="740" y1="194" x2="730" y2="330" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="740" y1="194" x2="660" y2="154" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="730" y1="330" x2="520" y2="340" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="730" y1="330" x2="650" y2="292" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="392" y1="368" x2="520" y2="340" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="392" y1="368" x2="380" y2="308" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="392" y1="368" x2="460" y2="290" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="360" y1="58" x2="196" y2="140" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="480" y1="57" x2="606" y2="65" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="460" y1="290" x2="530" y2="260" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="460" y1="290" x2="450" y2="238" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="460" y1="290" x2="340" y2="258" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="530" y1="260" x2="610" y2="242" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="530" y1="260" x2="650" y2="292" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="340" y1="258" x2="380" y2="308" stroke="#bbb" stroke-width="1" opacity="0.6"></line><line x1="340" y1="258" x2="422" y2="215" stroke="#bbb" stroke-width="1" opacity="0.6"></line></g>
+      <g id="route3"></g>
+      <g id="route2"></g>
+      <g id="route1"></g>
+      <g id="nodes"><circle cx="210" cy="330" r="4.5" fill="#e67e22" stroke="#fff" stroke-width="1.5"></circle><circle cx="422" cy="215" r="4.5" fill="#27ae60" stroke="#fff" stroke-width="1.5"></circle><circle cx="360" cy="58" r="4.5" fill="#8e44ad" stroke="#fff" stroke-width="1.5"></circle><circle cx="196" cy="140" r="4.5" fill="#2980b9" stroke="#fff" stroke-width="1.5"></circle><circle cx="450" cy="238" r="4.5" fill="#c8960a" stroke="#fff" stroke-width="1.5"></circle><circle cx="218" cy="385" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="232" cy="420" r="4.5" fill="#2980b9" stroke="#fff" stroke-width="1.5"></circle><circle cx="238" cy="438" r="4.5" fill="#2980b9" stroke="#fff" stroke-width="1.5"></circle><circle cx="548" cy="288" r="4.5" fill="#27ae60" stroke="#fff" stroke-width="1.5"></circle><circle cx="490" cy="125" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="606" cy="65" r="4.5" fill="#1abc9c" stroke="#fff" stroke-width="1.5"></circle><circle cx="122" cy="75" r="4.5" fill="#e67e22" stroke="#fff" stroke-width="1.5"></circle><circle cx="72" cy="335" r="4.5" fill="#1abc9c" stroke="#fff" stroke-width="1.5"></circle><circle cx="94" cy="288" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="380" cy="308" r="4.5" fill="#27ae60" stroke="#fff" stroke-width="1.5"></circle><circle cx="472" cy="194" r="4.5" fill="#e74c3c" stroke="#fff" stroke-width="1.5"></circle><circle cx="500" cy="222" r="4.5" fill="#27ae60" stroke="#fff" stroke-width="1.5"></circle><circle cx="442" cy="180" r="4.5" fill="#1abc9c" stroke="#fff" stroke-width="1.5"></circle><circle cx="540" cy="183" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="392" cy="368" r="4.5" fill="#e67e22" stroke="#fff" stroke-width="1.5"></circle><circle cx="520" cy="340" r="4.5" fill="#9b59b6" stroke="#fff" stroke-width="1.5"></circle><circle cx="480" cy="57" r="4.5" fill="#27ae60" stroke="#fff" stroke-width="1.5"></circle><circle cx="610" cy="242" r="4.5" fill="#27ae60" stroke="#fff" stroke-width="1.5"></circle><circle cx="740" cy="194" r="4.5" fill="#2980b9" stroke="#fff" stroke-width="1.5"></circle><circle cx="730" cy="330" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="660" cy="154" r="4.5" fill="#1abc9c" stroke="#fff" stroke-width="1.5"></circle><circle cx="650" cy="292" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="460" cy="290" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="530" cy="260" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle><circle cx="340" cy="258" r="4.5" fill="#7f8c8d" stroke="#fff" stroke-width="1.5"></circle></g>
+      <g id="labels"><rect x="217.5" y="322" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="218.5" y="333" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">ISBT Dehradun</text><rect x="429.5" y="207" width="59.400000000000006" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="430.5" y="218" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Clock Tower</text><rect x="367.5" y="50" width="91.80000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="368.5" y="61" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Tapkeshwar Temple</text><rect x="203.5" y="132" width="113.4" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="204.5" y="143" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Forest Research Inst.</text><rect x="457.5" y="230" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="458.5" y="241" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Paltan Bazaar</text><rect x="225.5" y="377" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="226.5" y="388" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Subhash Nagar</text><rect x="239.5" y="412" width="113.4" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="240.5" y="423" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Graphic Era Hill Uni.</text><rect x="245.5" y="430" width="86.4" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="246.5" y="441" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Graphic Era Uni.</text><rect x="555.5" y="280" width="86.4" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="556.5" y="291" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Saharanpur Chowk</text><rect x="497.5" y="117" width="59.400000000000006" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="498.5" y="128" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Rajpur Road</text><rect x="613.5" y="57" width="81" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="614.5" y="68" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Malsi Deer Park</text><rect x="129.5" y="67" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="130.5" y="78" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Robber's Cave</text><rect x="79.5" y="327" width="54" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="80.5" y="338" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Lacchiwala</text><rect x="101.5" y="280" width="54" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="102.5" y="291" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Prem Nagar</text><rect x="387.5" y="300" width="75.60000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="388.5" y="311" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Rispana Bridge</text><rect x="479.5" y="186" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="480.5" y="197" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Doon Hospital</text><rect x="507.5" y="214" width="64.80000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="508.5" y="225" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Survey Chowk</text><rect x="449.5" y="172" width="59.400000000000006" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="450.5" y="183" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Gandhi Park</text><rect x="547.5" y="175" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="548.5" y="186" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Parade Ground</text><rect x="399.5" y="360" width="81" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="400.5" y="371" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Railway Station</text><rect x="527.5" y="332" width="64.80000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="528.5" y="343" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Pacific Mall</text><rect x="487.5" y="49" width="75.60000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="488.5" y="60" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Mussoorie Gate</text><rect x="617.5" y="234" width="75.60000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="618.5" y="245" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Ballupur Chowk</text><rect x="747.5" y="186" width="37.800000000000004" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="748.5" y="197" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">IT Park</text><rect x="737.5" y="322" width="70.2" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="738.5" y="333" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Haridwar Road</text><rect x="667.5" y="146" width="48.6" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="668.5" y="157" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">MDDA Park</text><rect x="657.5" y="284" width="64.80000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="658.5" y="295" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Vasant Vihar</text><rect x="467.5" y="282" width="59.400000000000006" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="468.5" y="293" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Race Course</text><rect x="537.5" y="252" width="48.6" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="538.5" y="263" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Dalanwala</text><rect x="347.5" y="250" width="64.80000000000001" height="13" fill="rgba(255,255,255,0.8)" rx="2"></rect><text x="348.5" y="261" font-size="8.5" fill="#666" font-family="Inter,sans-serif" font-weight="400" style="pointer-events:none">Nehru Colony</text></g>
+      <g id="dist-labels"></g>
+    </svg>
+
+    <div id="side-panel"></div>
+
+    <div id="bottom-bar" style="display:none">
+      <div class="bb-item"><div class="bb-dot" style="background:#1a73e8"></div>Shortest route</div>
+      <div class="bb-item"><div class="bb-dot" style="background:#e8710a"></div>Alternative 1</div>
+      <div class="bb-item"><div class="bb-dot" style="background:#1e8e3e"></div>Alternative 2</div>
+      <div class="bb-item" style="margin-left:auto;color:#888;font-size:10px">Click a route card to highlight</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const places=[
+  {id:'isbt',name:'ISBT Dehradun',x:210,y:330,cat:'transit'},
+  {id:'clock',name:'Clock Tower',x:422,y:215,cat:'landmark'},
+  {id:'tapkeshwar',name:'Tapkeshwar Temple',x:360,y:58,cat:'temple'},
+  {id:'fri',name:'Forest Research Inst.',x:196,y:140,cat:'institution'},
+  {id:'paltan',name:'Paltan Bazaar',x:450,y:238,cat:'market'},
+  {id:'subhash',name:'Subhash Nagar',x:218,y:385,cat:'area'},
+  {id:'graphic_hill',name:'Graphic Era Hill Uni.',x:232,y:420,cat:'institution'},
+  {id:'graphic',name:'Graphic Era Uni.',x:238,y:438,cat:'institution'},
+  {id:'saharanpur',name:'Saharanpur Chowk',x:548,y:288,cat:'landmark'},
+  {id:'rajpur',name:'Rajpur Road',x:490,y:125,cat:'area'},
+  {id:'malsi',name:'Malsi Deer Park',x:606,y:65,cat:'park'},
+  {id:'robbers',name:"Robber's Cave",x:122,y:75,cat:'attraction'},
+  {id:'lacchiwala',name:'Lacchiwala',x:72,y:335,cat:'park'},
+  {id:'prem',name:'Prem Nagar',x:94,y:288,cat:'area'},
+  {id:'rispana',name:'Rispana Bridge',x:380,y:308,cat:'landmark'},
+  {id:'doon_hospital',name:'Doon Hospital',x:472,y:194,cat:'hospital'},
+  {id:'survey',name:'Survey Chowk',x:500,y:222,cat:'landmark'},
+  {id:'gandhi',name:'Gandhi Park',x:442,y:180,cat:'park'},
+  {id:'parade',name:'Parade Ground',x:540,y:183,cat:'area'},
+  {id:'railway',name:'Railway Station',x:392,y:368,cat:'transit'},
+  {id:'pacific',name:'Pacific Mall',x:520,y:340,cat:'mall'},
+  {id:'mussoorie',name:'Mussoorie Gate',x:480,y:57,cat:'landmark'},
+  {id:'ballupur',name:'Ballupur Chowk',x:610,y:242,cat:'landmark'},
+  {id:'it_park',name:'IT Park',x:740,y:194,cat:'institution'},
+  {id:'haridwar_rd',name:'Haridwar Road',x:730,y:330,cat:'area'},
+  {id:'mdda',name:'MDDA Park',x:660,y:154,cat:'park'},
+  {id:'vasant_vihar',name:'Vasant Vihar',x:650,y:292,cat:'area'},
+  {id:'race_course',name:'Race Course',x:460,y:290,cat:'area'},
+  {id:'dalanwala',name:'Dalanwala',x:530,y:260,cat:'area'},
+  {id:'nehru_colony',name:'Nehru Colony',x:340,y:258,cat:'area'},
+];
+
+const edges=[
+  ['isbt','subhash',1.6],['isbt','rispana',5.0],['isbt','prem',3.5],['isbt','railway',5.5],['isbt','nehru_colony',4.2],
+  ['subhash','graphic_hill',0.7],['graphic_hill','graphic',0.3],
+  ['rispana','clock',2.8],['rispana','railway',2.0],['rispana','paltan',2.5],['rispana','race_course',2.2],['rispana','nehru_colony',1.8],
+  ['clock','paltan',0.8],['clock','gandhi',0.7],['clock','doon_hospital',1.2],['clock','tapkeshwar',9.4],['clock','nehru_colony',1.5],
+  ['paltan','survey',0.9],['paltan','saharanpur',3.0],['paltan','parade',2.5],['paltan','dalanwala',1.4],['paltan','race_course',1.5],
+  ['survey','doon_hospital',0.6],['survey','gandhi',0.8],['survey','dalanwala',0.8],
+  ['gandhi','rajpur',3.5],['gandhi','parade',1.8],
+  ['rajpur','mussoorie',4.5],['rajpur','malsi',4.0],['rajpur','fri',4.2],['rajpur','tapkeshwar',5.6],['rajpur','mdda',3.2],
+  ['fri','tapkeshwar',5.7],['fri','robbers',3.5],['fri','prem',4.0],
+  ['robbers','prem',5.0],['prem','lacchiwala',4.5],['prem','nehru_colony',5.5],
+  ['saharanpur','pacific',2.0],['saharanpur','ballupur',3.0],['saharanpur','vasant_vihar',2.5],['saharanpur','dalanwala',2.0],
+  ['parade','survey',1.2],['parade','ballupur',3.5],['parade','it_park',5.5],
+  ['ballupur','vasant_vihar',1.5],['ballupur','mdda',2.8],['ballupur','it_park',3.5],
+  ['it_park','haridwar_rd',4.0],['it_park','mdda',3.0],
+  ['haridwar_rd','pacific',2.5],['haridwar_rd','vasant_vihar',3.5],
+  ['railway','pacific',3.0],['railway','rispana',2.0],['railway','race_course',2.5],
+  ['tapkeshwar','fri',5.7],['mussoorie','malsi',3.0],
+  ['race_course','dalanwala',1.2],['race_course','paltan',1.5],['race_course','nehru_colony',2.0],
+  ['dalanwala','ballupur',2.8],['dalanwala','vasant_vihar',3.0],
+  ['nehru_colony','rispana',1.8],['nehru_colony','clock',1.5],
+];
+
+const catColor={transit:'#e67e22',temple:'#8e44ad',institution:'#2980b9',market:'#c8960a',area:'#7f8c8d',landmark:'#27ae60',park:'#1abc9c',hospital:'#e74c3c',attraction:'#e67e22',mall:'#9b59b6'};
+const routeColors=['#1a73e8','#e8710a','#1e8e3e'];
+const routeDash=['none','6,4','3,3'];
+const routeMarkers=['url(#arr1)','url(#arr2)','url(#arr3)'];
+const modeIcons=['🛣️','🔀','🌿'];
+const modeLabels=['Shortest','Alternate via inner roads','Scenic / less traffic'];
+
+function getColor(cat){return catColor[cat]||'#888';}
+function placeById(id){return places.find(p=>p.id===id);}
+
+function buildGraph(){
+  const g={};
+  places.forEach(p=>{g[p.id]={};});
+  edges.forEach(([a,b,d])=>{g[a][b]=d;g[b][a]=d;});
+  return g;
+}
+
+// Yen's K-shortest paths (simplified: Dijkstra with edge exclusions)
+function dijkstra(graph,src,dst,forbidEdges=[]){
+  const dist={},prev={},visited=new Set();
+  places.forEach(p=>{dist[p.id]=Infinity;});
+  dist[src]=0;
+  const pq=[[0,src]];
+  while(pq.length){
+    pq.sort((a,b)=>a[0]-b[0]);
+    const [d,u]=pq.shift();
+    if(visited.has(u))continue;
+    visited.add(u);
+    if(u===dst)break;
+    for(const [v,w] of Object.entries(graph[u])){
+      const blocked=forbidEdges.some(e=>(e[0]===u&&e[1]===v)||(e[0]===v&&e[1]===u));
+      if(!blocked&&dist[u]+w<dist[v]){dist[v]=dist[u]+w;prev[v]=u;pq.push([dist[v],v]);}
+    }
+  }
+  const path=[];let cur=dst;
+  while(cur){path.unshift(cur);cur=prev[cur];}
+  if(path[0]!==src||dist[dst]===Infinity)return null;
+  return {path,dist:dist[dst]};
+}
+
+function kShortestPaths(src,dst,k=3){
+  const graph=buildGraph();
+  const results=[];
+  const r1=dijkstra(graph,src,dst);
+  if(!r1)return results;
+  results.push(r1);
+
+  // For 2nd path: forbid the heaviest edge on the 1st path
+  if(k>=2){
+    const p=r1.path;
+    let maxEdge=null,maxW=0;
+    for(let i=0;i<p.length-1;i++){
+      const e=edges.find(e=>(e[0]===p[i]&&e[1]===p[i+1])||(e[0]===p[i+1]&&e[1]===p[i]));
+      if(e&&e[2]>maxW){maxW=e[2];maxEdge=[p[i],p[i+1]];}
+    }
+    if(maxEdge){
+      const r2=dijkstra(graph,src,dst,[maxEdge]);
+      if(r2&&!pathEqual(r2.path,r1.path))results.push(r2);
+    }
+  }
+
+  // For 3rd path: forbid the first edge of path 1
+  if(k>=3&&results.length>=2){
+    const p1=r1.path;
+    const forbid=[[p1[0],p1[1]],[p1[p1.length-2],p1[p1.length-1]]];
+    const r3=dijkstra(graph,src,dst,forbid);
+    if(r3&&!pathEqual(r3.path,results[0].path)&&!pathEqual(r3.path,results[1].path))results.push(r3);
+    else{
+      // try forbidding middle edge
+      const mid=Math.floor(p1.length/2);
+      const r3b=dijkstra(graph,src,dst,[[p1[mid-1],p1[mid]]]);
+      if(r3b&&!pathEqual(r3b.path,results[0].path)&&(results.length<2||!pathEqual(r3b.path,results[1].path)))results.push(r3b);
+    }
+  }
+
+  return results.slice(0,k);
+}
+
+// Map frontend string IDs to C++ integer IDs
+const idMap = {
+    "isbt": 2,
+    "clock": 1,
+    "rajpur": 3,
+    "survey": 4,
+    "subhash": 5,
+    "ballupur": 6,
+    "saharanpur": 8, // Mapping to 'Doiwala' or nearest area in your C++ list
+    "railway": 10    // Mapping to 'Clement Town' or similar
+};
+
+async function findRoutes() {
+    const srcKey = document.getElementById('src').value;
+    const dstKey = document.getElementById('dst').value;
+    
+    const srcId = idMap[srcKey];
+    const dstId = idMap[dstKey];
+
+    if (srcId === undefined || dstId === undefined) {
+        alert("This specific location is not yet mapped to the C++ backend.");
+        return;
+    }
+
+    // Call your Node.js API
+    const response = await fetch(`/api/route?algo=dijkstra&src=${srcId}&dst=${dstId}`);
+    const data = await response.json();
+
+    if (data.found) {
+        // Map integer IDs back to frontend string keys to draw on the map
+        const pathKeys = data.nodes.map(numId => 
+            Object.keys(idMap).find(key => idMap[key] === numId)
+        );
+
+        activeRoutes = [{
+            path: pathKeys,
+            dist: data.dist
+        }];
+
+        highlightIdx = 0;
+        drawAll(srcKey, dstKey);
+        drawRoutes();
+        buildSidePanel();
+        document.getElementById('bottom-bar').style.display = 'flex';
+    }
+}
+
+function pathEqual(a,b){return JSON.stringify(a)===JSON.stringify(b);}
+
+let activeRoutes=[];
+let highlightIdx=0;
+
+function drawAll(srcId,dstId){
+  const eG=document.getElementById('edges');
+  const nG=document.getElementById('nodes');
+  const lG=document.getElementById('labels');
+  eG.innerHTML='';nG.innerHTML='';lG.innerHTML='';
+
+  edges.forEach(([a,b])=>{
+    const pa=placeById(a),pb=placeById(b);if(!pa||!pb)return;
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',pa.x);line.setAttribute('y1',pa.y);
+    line.setAttribute('x2',pb.x);line.setAttribute('y2',pb.y);
+    line.setAttribute('stroke','#bbb');line.setAttribute('stroke-width','1');line.setAttribute('opacity','0.6');
+    eG.appendChild(line);
+  });
+
+  const routeNodes=new Set(activeRoutes.flatMap(r=>r.path));
+  places.forEach(p=>{
+    const isSrc=p.id===srcId;
+    const isDst=p.id===dstId;
+    const onAny=routeNodes.has(p.id);
+    const col=isSrc?'#34a853':isDst?'#ea4335':onAny?'#1a73e8':getColor(p.cat);
+    const r=isSrc||isDst?9:onAny?6:4.5;
+
+    if(isSrc||isDst){
+      const outer=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      outer.setAttribute('cx',p.x);outer.setAttribute('cy',p.y);outer.setAttribute('r',r+5);
+      outer.setAttribute('fill',col);outer.setAttribute('opacity','0.18');nG.appendChild(outer);
+    }
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',p.x);circle.setAttribute('cy',p.y);circle.setAttribute('r',r);
+    circle.setAttribute('fill',col);circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','1.5');
+    nG.appendChild(circle);
+
+    const bw=p.name.length*5.4;
+    const bg=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bg.setAttribute('x',p.x+r+3);bg.setAttribute('y',p.y-8);bg.setAttribute('width',bw);bg.setAttribute('height',13);
+    bg.setAttribute('fill','rgba(255,255,255,0.8)');bg.setAttribute('rx','2');lG.appendChild(bg);
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',p.x+r+4);txt.setAttribute('y',p.y+3);
+    txt.setAttribute('font-size',isSrc||isDst?'10':'8.5');
+    txt.setAttribute('fill',isSrc||isDst?'#111':onAny?'#222':'#666');
+    txt.setAttribute('font-family','Inter,sans-serif');
+    txt.setAttribute('font-weight',isSrc||isDst||onAny?'600':'400');
+    txt.setAttribute('style','pointer-events:none');
+    txt.textContent=p.name;lG.appendChild(txt);
+  });
+}
+
+function drawRoutes(){
+  for(let ri=0;ri<3;ri++){
+    const g=document.getElementById('route'+(ri+1));
+    g.innerHTML='';
+  }
+  document.getElementById('dist-labels').innerHTML='';
+
+  activeRoutes.forEach((r,ri)=>{
+    const g=document.getElementById('route'+(ri+1));
+    const col=routeColors[ri];
+    const dash=routeDash[ri];
+    const marker=routeMarkers[ri];
+    const opacity=highlightIdx===ri?1:0.35;
+    const sw=highlightIdx===ri?4.5:2.5;
+
+    const path=r.path;
+    for(let i=0;i<path.length-1;i++){
+      const pa=placeById(path[i]),pb=placeById(path[i+1]);
+      const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',pa.x);line.setAttribute('y1',pa.y);
+      line.setAttribute('x2',pb.x);line.setAttribute('y2',pb.y);
+      line.setAttribute('stroke',col);line.setAttribute('stroke-width',sw);
+      if(dash!=='none')line.setAttribute('stroke-dasharray',dash);
+      line.setAttribute('marker-end',marker);line.setAttribute('opacity',opacity);
+      g.appendChild(line);
+
+      // dist labels only on highlighted route
+      if(highlightIdx===ri){
+        const mx=(pa.x+pb.x)/2,my=(pa.y+pb.y)/2;
+        const e=edges.find(e=>(e[0]===path[i]&&e[1]===path[i+1])||(e[0]===path[i+1]&&e[1]===path[i]));
+        if(e){
+          const dG=document.getElementById('dist-labels');
+          const bg=document.createElementNS('http://www.w3.org/2000/svg','rect');
+          bg.setAttribute('x',mx-13);bg.setAttribute('y',my-9);bg.setAttribute('width',26);bg.setAttribute('height',13);
+          bg.setAttribute('rx','4');bg.setAttribute('fill','#fff');bg.setAttribute('stroke',col);bg.setAttribute('stroke-width','0.8');
+          dG.appendChild(bg);
+          const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+          t.setAttribute('x',mx);t.setAttribute('y',my+1);t.setAttribute('text-anchor','middle');
+          t.setAttribute('font-size','8.5');t.setAttribute('fill',col);t.setAttribute('font-family','Inter,sans-serif');t.setAttribute('font-weight','600');
+          t.textContent=e[2].toFixed(1)+'km';dG.appendChild(t);
+        }
+      }
+    }
+  });
+}
+
+function buildSidePanel(){
+  const sp=document.getElementById('side-panel');
+  sp.innerHTML='';
+  activeRoutes.forEach((r,ri)=>{
+    const col=routeColors[ri];
+    const card=document.createElement('div');
+    card.className='route-card'+(ri===highlightIdx?' active':'');
+    card.style.setProperty('--rc',col);
+    card.style.borderColor=ri===highlightIdx?col:'#ddd';
+
+    const stepNames=r.path.map(id=>placeById(id).name);
+    const preview=stepNames.length<=4?stepNames.join(' → '):stepNames[0]+' → '+stepNames[1]+' → ... → '+stepNames[stepNames.length-1];
+
+    card.innerHTML=`
+      <div class="rc-header">
+        <div class="rc-badge" style="background:${col}"></div>
+        <span class="rc-title">${modeLabels[ri]}</span>
+        <span class="rc-dist" style="color:${col}">${r.dist.toFixed(1)} km</span>
+      </div>
+      <div class="rc-steps">${preview}</div>
+      <div class="rc-mode">${modeIcons[ri]} ${r.path.length-1} segments · ${Math.round(r.dist/30*60)} min est.</div>
+    `;
+    card.onclick=()=>{highlightIdx=ri;buildSidePanel();drawRoutes();};
+    sp.appendChild(card);
+  });
+}
+
+function populateSelects(){
+  const src=document.getElementById('src');
+  const dst=document.getElementById('dst');
+  places.forEach(p=>{
+    const o1=document.createElement('option');o1.value=p.id;o1.textContent=p.name;src.appendChild(o1);
+    const o2=document.createElement('option');o2.value=p.id;o2.textContent=p.name;dst.appendChild(o2);
+  });
+  src.value='isbt';dst.value='tapkeshwar';
+}
+
+function findRoutes(){
+  const src=document.getElementById('src').value;
+  const dst=document.getElementById('dst').value;
+  if(src===dst){alert('Source and destination are the same!');return;}
+  activeRoutes=kShortestPaths(src,dst,3);
+  if(!activeRoutes.length){alert('No route found!');return;}
+  highlightIdx=0;
+  drawAll(src,dst);
+  drawRoutes();
+  buildSidePanel();
+  document.getElementById('bottom-bar').style.display='flex';
+}
+
+function resetRoutes(){
+  activeRoutes=[];highlightIdx=0;
+  ['route1','route2','route3','dist-labels'].forEach(id=>document.getElementById(id).innerHTML='');
+  document.getElementById('side-panel').innerHTML='';
+  document.getElementById('bottom-bar').style.display='none';
+  drawAll('','');
+}
+
+populateSelects();
+drawAll('','');
+</script>
+</body></html>
