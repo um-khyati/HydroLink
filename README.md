@@ -1,114 +1,86 @@
-# 💧 HydroLink – Water Distribution Network Optimization
+# 💧 HydroLink
 
-HydroLink is a simulation-based project that models a water distribution network using graph data structures and algorithms. It helps analyze and optimize pipeline connections, detect efficient routes, and ensure cost-effective water supply.
+### Smart Water Network Optimization System
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-C++-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Backend-Node.js-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Framework-Express-black?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Algorithms-Graph-orange?style=for-the-badge" />
+</p>
+
+---
+
+HydroLink is a **graph-based simulation system** designed to model and optimize water distribution networks. It leverages fundamental algorithms like **Kruskal, Prim, and Dijkstra** to ensure efficient pipeline connectivity, cost optimization, and shortest path routing.
 
 ---
 
 ## 🚀 Features
 
-* 🌐 Graph-based representation of a water network (nodes & pipelines)
-* 🔗 Minimum Spanning Tree using:
-
-  * Kruskal’s Algorithm
-  * Prim’s Algorithm
-* 🛣️ Shortest Path calculation using Dijkstra’s Algorithm
-* ⚙️ Ability to disable specific pipelines (edges) dynamically
-* 📊 Outputs results in JSON format for easy integration with frontend/API
+* 🌐 Real-world inspired **water distribution network modeling**
+* 🔗 **Minimum Spanning Tree (MST)** for cost-efficient pipeline design
+* 🛣️ **Shortest path computation** for optimized routing
+* ⚙️ Dynamic **edge disabling** to simulate pipeline failures
+* 📡 Backend integration using **Node.js & Express**
+* 📊 Clean **JSON outputs** for system/API integration
 
 ---
 
-## 🧠 Algorithms Used
+## 🧠 Algorithms Implemented
 
-### 1. Kruskal’s Algorithm
-
-* Finds Minimum Spanning Tree (MST)
-* Minimizes total pipeline cost
-
-### 2. Prim’s Algorithm
-
-* Alternative MST approach using priority queue
-
-### 3. Dijkstra’s Algorithm
-
-* Finds shortest path between two nodes
-* Useful for efficient water routing
+| Algorithm                | Purpose                           |
+| ------------------------ | --------------------------------- |
+| **Kruskal’s Algorithm**  | Builds minimum cost network       |
+| **Prim’s Algorithm**     | Alternative MST approach          |
+| **Dijkstra’s Algorithm** | Finds shortest path between nodes |
 
 ---
 
 ## 🏗️ Project Structure
 
-```
+```id="fw6k2o"
 HydroLink/
-│── hydrolink_api.cpp     # Core C++ implementation
-│── hydrolink_api.exe     # Compiled executable
-│── package.json          # Node.js backend config
+│── hydrolink_api.cpp     # Core graph algorithms (C++)
+│── hydrolink_api         # Compiled executable
+│── hydrolink_api.exe     # Windows executable (optional)
+│
+│── server.js             # Node.js backend server
+│── package.json          # Project configuration
 │── package-lock.json
+│
+│── public/               # Frontend/static files
+│── node_modules/         # Dependencies
+│
+│── README.md
+│── .DS_Store
 ```
 
 ---
 
 ## ⚙️ Tech Stack
 
-* **C++** – Core logic and algorithms
-* **Node.js + Express** – Backend (API integration) 
-* **Graph Algorithms** – MST & Shortest Path
-
----
-
-## ▶️ How to Run
-
-### 1. Compile the C++ Code (if not using .exe)
-
-```bash
-g++ hydrolink_api.cpp -o hydrolink_api
-```
-
-### 2. Run Algorithms
-
-#### 🔹 Kruskal
-
-```bash
-./hydrolink_api kruskal ""
-```
-
-#### 🔹 Prim
-
-```bash
-./hydrolink_api prim "" 0
-```
-
-#### 🔹 Dijkstra
-
-```bash
-./hydrolink_api dijkstra "" 0 10
-```
+* **C++** – Core algorithm implementation
+* **Node.js** – Backend runtime
+* **Express.js** – API framework
+* **JavaScript** – Server-side logic
 
 ---
 
 ## 🔧 Parameters
 
-* `""` → Comma-separated edge IDs to disable
-* `0` → Source node
-* `10` → Destination node
-
----
-
-## 📍 Sample Network
-
-The system models a real-world inspired water network including:
-
-* Sources (e.g., ONGC Chowk)
-* Hubs (distribution centers)
-* Areas (supply regions)
-* Sinks (end points)
+| Parameter | Description                         |
+| --------- | ----------------------------------- |
+| `""`      | Comma-separated edge IDs to disable |
+| `0`       | Source node                         |
+| `10`      | Destination node                    |
 
 ---
 
 ## 📈 Output Format
 
-Example (Kruskal):
+### Kruskal Example
 
-```json
+```json id="e98l7c"
 {
   "success": true,
   "cost": 42,
@@ -116,9 +88,9 @@ Example (Kruskal):
 }
 ```
 
-Example (Dijkstra):
+### Dijkstra Example
 
-```json
+```json id="6y7d0y"
 {
   "found": true,
   "dist": 15,
@@ -131,35 +103,13 @@ Example (Dijkstra):
 
 ## 💡 Use Cases
 
-* Smart city water management
-* Infrastructure planning
-* Network optimization problems
-* Academic learning for graph algorithms
+* 🏙️ Smart city infrastructure planning
+* 💧 Water supply optimization
+* 📐 Network design & analysis
+* 🎓 Academic learning for graph algorithms
 
 ---
 
-## 🔮 Future Improvements
-
-* Add frontend visualization (React / D3.js)
-* Real-time simulation dashboard
-* Integration with GIS/map data
-* API endpoints for dynamic queries
-
----
-
-## 👩‍💻 Author
-
-**Khyati Uttam**
-Computer Science Undergraduate
-
----
-
-## ⭐ Contribute
-
-Feel free to fork the repo and improve it!
-
----
-
-## 📜 License
-
-This project is open-source and available under the MIT License.
+<p align="center">
+  
+</p>
